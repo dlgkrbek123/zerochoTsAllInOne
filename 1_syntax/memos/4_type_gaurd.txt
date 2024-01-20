@@ -1,0 +1,78 @@
+------------------------------------------------------------
+
+타입가드는 분기로 타입 좁히기
+=> 실행 컨텍스트 상에서 분기로 타입을 좁힘
+=> 프리미티브 타입은 typeof로 좁히기
+=> Array.isArray(list)
+
+function numOrStr(a: number | string) {
+  if(typeof a === 'number') { a.toFixed(2) }
+  else {
+    a.slice(0, 2);
+  }
+}
+
+------------------------------------------------------------
+
+객체의 타입 가드
+=> 각 타입별로 특정 속성 값이 다르면 이를 if-else로 분기
+=> in 연산자로 객체에 특정 속성값이 있는지 if-else로 분기
+
+function typeCheck(a: B | C | D) {
+  if(a.type === 'b') {
+    // B로 인식
+  } else if(a.type === 'c') {
+    // C로 인식
+  } else {
+    // D로 인식
+  }
+}
+
+------------------------------------------------------------
+
+클래스는 이름자체로 타입이 된다.
+타입은 인스턴스의 타입을 의미
+
+if(param instanceof A) {
+  // 프로토타입 체인을 따라 체크
+}
+
+------------------------------------------------------------
+
+is 연산자로 타입을 구분하는 커스텀 함수를 작성
+=> boolean을 리턴
+=> if문에 사용됨
+
+interface Cat { meow: number }
+interface Dog { bow: number }
+
+function catOrDog(a: Cat | Dog): a is Dog {
+  return "bow" in a;
+}
+
+function pet(a: Cat | Dog) {
+  if(catOrDog(a)) {
+    a.bow()
+  } else {
+    a.meow()
+  }
+}
+
+
+Promise의 경우 status가 아래와 같이 분기됨
+=> pending, settled
+=> settled는 fulfilled or rejected
+
+const isRejected = (input: PromiseSettledResult<unknown>): input is PromiseRejectedResult => {
+  return input.status === 'rejected';
+}
+const isFulfilled = <T>(input: PromiseSettledResult<T>): input is PromiseFulfilledResult<T> => {
+  return input.status === 'fulfilled';
+}
+
+------------------------------------------------------------
+
+{}, Object는 모든 타입
+object가 진짜 객체 => type, class, interface써라
+
+------------------------------------------------------------

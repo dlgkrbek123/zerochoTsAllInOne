@@ -1,0 +1,43 @@
+------------------------------------------------------------
+
+class A {
+  a: string;
+  b: number;
+
+  constructor(a: string, b: number = 123) {
+    this.a = a;
+    this.b = b;
+  }
+
+  method() {
+  }
+}
+
+type AA = A; // 클래스 인스턴스의 타입
+const a: A = new A('123');
+const b: typeof A = A;
+
+js와 ts의 private은 다르다.
+=> js는 메소드에서만 사용가능
+=> ts는 실제코드에서는 public으로 바뀐다.
+
+------------------------------------------------------------
+
+interface A {
+  readonly a: string;
+  b: string;
+}
+
+class B implements A {
+  private a: string = '123';     // 메소드에서만 사용가능
+  protected b: string = 'world'; // 메소드나 상속 클래스에서 사용가능
+  c: string = 'wow';
+}
+
+class C extends B {
+}
+
+new C().a;
+new C().b;
+
+------------------------------------------------------------
